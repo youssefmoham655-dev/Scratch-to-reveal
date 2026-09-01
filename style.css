@@ -1,0 +1,59 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+.container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+.secret_item, #secret_image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 1;
+}
+#scratch_canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+.controls{
+    position:absolute;
+    bottom:30px;
+    left:50%;
+    transform: translateX(-50%);
+    z-index:100;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
+    padding: 12px 24px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+.brush-controls{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+#next{
+    padding:8px 18px;
+    border:none;
+    background: #0075FF;
+    color:white;
+    font-size:16px;
+    border-radius:20px;
+    cursor:pointer;
+    transition:transform 0.2s;
+}
+#next:hover{
+    transform: scale(1.05);
+}
