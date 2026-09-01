@@ -38,6 +38,8 @@ next.addEventListener("click", () => {
     ctx.globalCompositeOperation = "source-over";
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    revealedbutton.style.display = "none";
 })
 
 let Drawing = false;
@@ -63,9 +65,33 @@ function scratch(e) {
     ctx.arc(x,y,brush_size, 0,Math.PI * 2);
     ctx.fill();
 }
+const revealedbutton = document.getElementById("revealed-button");
+const habeeb_deen_ommy = new Audio("assets/7abeeb deen ommy.mp3")
+function check() {
+    const image_data = ctx.getImageData(0,0,canvas.width,canvas.height);
+    const pixels = image_data.data;
+    const totalpixels = pixels.length / 4
+    let clearedpixels = 0;
+
+    for(let i = 3; i < pixels.length; i += 4) {
+        if (pixels[i] === 0) {
+            clearedpixels++;
+        }
+    }
+
+    const cleared_precentage = (clearedpixels / totalpixels) * 100;
+
+    if (cleared_precentage >= 70) {
+        revealedbutton.style.display = "block";
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+}
 
 canvas.addEventListener("mousedown", () => Drawing = true)
-window.addEventListener("mouseup", () => Drawing = false)
+window.addEventListener("mouseup", () => {
+    Drawing = false
+    check()
+})
 canvas.addEventListener("mousemove", scratch)
 
 // add mobile controls
@@ -73,5 +99,12 @@ canvas.addEventListener("mousemove", scratch)
 canvas.addEventListener("touchstart", (e) => {
     Drawing = true; scratch(e);
 });
-window.addEventListener("touchend", () => Drawing = true);
+window.addEventListener("touchend", () => {
+    Drawing = false
+    check()
+});
 canvas.addEventListener("touchmove",scratch)
+
+revealedbutton.addEventListener("click", () => {
+    habeeb_deen_ommy.play()
+})
