@@ -108,3 +108,18 @@ canvas.addEventListener("touchmove",scratch)
 revealedbutton.addEventListener("click", () => {
     habeeb_deen_ommy.play()
 })
+
+const lightdarktoggle = document.getElementById("lightdarktoggle")
+
+lightdarktoggle.addEventListener("click", () => {
+    if (lightdarktoggle.textContent == "☀️") {
+        lightdarktoggle.textContent = "🌑"
+        ctx.fillStyle = "antiquewhite";
+    }
+    else {
+        lightdarktoggle.textContent = "☀️"
+        ctx.fillStyle = "black";
+    }
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+})
