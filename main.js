@@ -71,3 +71,11 @@ function scratch(e) {
 canvas.addEventListener("mousedown", () => Drawing = true)
 window.addEventListener("mouseup", () => Drawing = false)
 canvas.addEventListener("mousemove", scratch)
+
+// add mobile controls
+
+canvas.addEventListener("touchstart", (e) => {
+    Drawing = true; scratch(e);
+});
+window.addEventListener("touchend", () => Drawing = true);
+canvas.addEventListener("touchmove",scratch)
