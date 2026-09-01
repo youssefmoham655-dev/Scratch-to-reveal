@@ -1,5 +1,13 @@
+const go_button = document.getElementById("go-button");
+const warning = document.getElementById("warning");
 const canvas = document.getElementById("scratch_canvas")
 const ctx = canvas.getContext("2d")
+
+if(go_button && warning) {
+    go_button.addEventListener("click", () =>{
+        warning.style.visibility = "hidden";
+    })
+}
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 
