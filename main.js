@@ -34,6 +34,7 @@ const secret_image = document.getElementById("secret_image")
 
 
 next.addEventListener("click", () => {
+    resetTimer()
     secret_image.src = images[Math.floor(Math.random() * images.length)]
     ctx.globalCompositeOperation = "source-over";
     ctx.fillStyle = "black";
@@ -66,7 +67,33 @@ function scratch(e) {
     ctx.fill();
 }
 const revealedbutton = document.getElementById("revealed-button");
-const habeeb_deen_ommy = new Audio("assets/7abeeb deen ommy.mp3")
+const habeeb_deen_ommy = new Audio("assets/7abeeb deen ommy.mp3");
+
+let seconds = 0;
+let timerinterval = null;
+let timestarted = false;
+const timer_display = document.getElementById("timer_display")
+
+function start_timer() {
+    if (timestarted) return;
+    timestarted = true;
+    seconds = 0;
+    timer_display.textContent = `⏱️ 0s`;
+
+    timerinterval = setInterval(() => {
+        seconds++;
+        timer_display.textContent = `⏱️ ${seconds}s`;
+    }, 1000)
+}
+function stop_timer() {
+    clearInterval(timerinterval)
+    timestarted = false
+}
+function resetTimer() {
+    stop_timer();
+    seconds = 0;
+    timer_display.textContent = `⏱️ 0s`;
+}
 function check() {
     const image_data = ctx.getImageData(0,0,canvas.width,canvas.height);
     const pixels = image_data.data;
@@ -82,12 +109,17 @@ function check() {
     const cleared_precentage = (clearedpixels / totalpixels) * 100;
 
     if (cleared_precentage >= 70) {
+        stop_timer()
+        timer_display.textContent = `Congrats, you finished scratching in ${seconds}`
         revealedbutton.style.display = "block";
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 }
 
-canvas.addEventListener("mousedown", () => Drawing = true)
+canvas.addEventListener("mousedown", () => {
+    Drawing = true
+    start_timer()
+})
 window.addEventListener("mouseup", () => {
     Drawing = false
     check()
@@ -98,6 +130,7 @@ canvas.addEventListener("mousemove", scratch)
 
 canvas.addEventListener("touchstart", (e) => {
     Drawing = true; scratch(e);
+    start_timer()
 });
 window.addEventListener("touchend", () => {
     Drawing = false
