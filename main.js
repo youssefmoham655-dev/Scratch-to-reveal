@@ -35,3 +35,31 @@ next.addEventListener("click", () => {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 })
+
+let Drawing = false;
+let brush_size = 35;
+
+const brushslider = document.getElementById("brush_slider")
+const brushSizeVal = document.getElementById("brush-size-val");
+
+brushslider.addEventListener("input", (e) => {
+    brush_size = e.target.value;
+    brushSizeVal.textContent = `${brush_size}px`;
+})
+
+function scratch(e) {
+    if (!Drawing) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left
+    const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top
+
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.beginPath();
+    ctx.arc(x,y,brush_size, 0,Math.PI * 2);
+    ctx.fill();
+}
+
+canvas.addEventListener("mousedown", () => Drawing = true)
+window.addEventListener("mouseup", () => Drawing = false)
+canvas.addEventListener("mousemove", scratch)
